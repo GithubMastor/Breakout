@@ -1,5 +1,6 @@
 from turtle import Turtle
 import random
+import time
 
 
 
@@ -13,6 +14,7 @@ class Ball(Turtle):
         self.penup()
         self.D = 0
         self.direction()
+        self.speeds=10
 
 
     def direction(self):
@@ -21,24 +23,50 @@ class Ball(Turtle):
         DIRECTIONS = (DIRECTION_1, DIRECTION_2)
         DIRECTION = random.choice(DIRECTIONS)
         self.D = DIRECTION
+        # self.D = 90.1
         self.seth(self.D)
 
     def move(self):
-        self.forward(10)
+        self.forward(self.speeds)
 
-    def bounce_wall(self):
-        print("down")
-        self.D += 90
-        self.seth(self.D)
+    def bounce_wall_right(self):
+        if (self.D > 0 and self.D < 90):
+            print(self.D)
+            self.D = 180-self.D
+            self.seth(self.D)
+            print(self.D)
+        elif self.D >270 and self.D <360:
+            print(self.D)
+            self.D = (360-self.D) +180
+            self.seth(self.D)
+            print(self.D)
+    def bounce_wall_left(self):
+        if (self.D > 90 and self.D < 180):
+            print(self.D)
+            self.D = 180-self.D
+            self.seth(self.D)
+            print(self.D)
+        elif self.D > 180 and self.D <270:
+            print(self.D)
+            self.D = 360-(self.D-180)
+            self.seth(self.D)
+            print(self.D)
 
-    def bounce_wall_up(self):
-        print("up")
-        self.D += 90
-        self.seth(self.D)
+    def bounce_paddle(self):
+        print(self.D)
+        if self.D > 180 and self.D < 360:
+            self.D = 360 - self.D
+            self.seth(self.D)
+            print(self.D)
 
-    def bounce_x(self):
-        self.D += 90
-        self.seth(self.D)
+    def bounce_blocks(self):
+        if self.D > 0 and self.D < 180:
+            self.D = 360 - self.D
+            self.seth(self.D)
+            print(self.D)
+
+    def inc_speed(self):
+        self.speeds+=.5
 
     def ball_reset(self):
         self.home()
